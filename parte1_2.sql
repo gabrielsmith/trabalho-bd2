@@ -1,5 +1,5 @@
-CREATE OR REPLACE FUNCTION delete_indexes (tbl_name regclass) RETURNS integer
-AS $$
+CREATE OR REPLACE FUNCTION delete_indexes (tbl_name regclass)
+RETURNS void AS $$
 BEGIN
   EXECUTE (
   SELECT 'DROP INDEX ' || string_agg(indexrelid::regclass::text, ', ')
@@ -9,6 +9,5 @@ BEGIN
   WHERE i.indrelid = tbl_name
   AND d.objid IS NULL
   );
-  return 1;
 END;
 $$ LANGUAGE plpgsql;
